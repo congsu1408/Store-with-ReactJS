@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import list from "../data";
 import Shopcart from "./shopcart";
 
-const Amazon = (handleClick) => {
+const Amazon = ({handleClick}) => {
 
     return (
         <div>

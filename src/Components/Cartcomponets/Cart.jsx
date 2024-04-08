@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
-// import "../styles/cart.css";
+import "../styles/cart.css";
 
 const Cart = ({cart, setCart, handlechange}) => {
     const [price, setprice] = useState(0);
@@ -22,19 +22,28 @@ const Cart = ({cart, setCart, handlechange}) => {
     return (
         <div>
             <article>
-                {cart.map((item) => {
-                    <div className="cart_box">
+                {cart?.map((item) => (
+                    <div className="cart_box" key={item.id}>
                         <div className="cart_img">
-                            <img src="item.img" alt="" srcset=""/>
-                            <p>{item.img}</p>
+                            <img src={item.img} alt="img"/>
+                            <p>
+                                {item.title} <span className="item_price">${item.price}</span>
+                            </p>
                         </div>
-                        <div>
-                            <button onClick={() => handlePrice(item, 1)}>+</button>
-                            <button onClick={() => handlePrice(item, -1)}>-</button>
+                        <div className="add_subtractbtn">
+                            <button onClick={() => handlechange(item, +1)}> +</button>
+                            <button> {item.amount}</button>
+                            <button onClick={() => handlechange(item, -1)}> -</button>
+                        </div>
+                        <div className="price_btn">
                             <button onClick={() => handleremove(item.id)}>Remove</button>
                         </div>
                     </div>
-                })}
+                ))}
+                <div className="total">
+                    <span>Total Price of your Cart</span>
+                    <span>=$ {price}</span>
+                </div>
             </article>
         </div>
     );

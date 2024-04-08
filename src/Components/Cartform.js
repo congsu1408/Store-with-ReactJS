@@ -29,8 +29,8 @@ const Cartform = () => {
         <div>
             <Navbar setShow={setShow} size={cart.length}/>
             {/*<Amazon/>*/}
-            {show ? <Amazon handleClick={handleClick}/> :
-                <Cart cart={cart} setCart={setCart} handlechange={handlechange}/>}
+            {show ? (<Amazon handleClick={handleClick}/>) :
+                (<Cart cart={cart} setCart={setCart} handlechange={handlechange}/>)}
             <Shopcart/>
         </div>
     );
