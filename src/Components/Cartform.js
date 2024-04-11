@@ -1,39 +1,58 @@
-import React, {useState} from 'react';
-import Amazon from "./Cartcomponets/amazon";
-import Navbar from "./Cartcomponets/Navbar";
-import Shopcart from "./Cartcomponets/shopcart";
-import Cart from "./Cartcomponets/Cart";
+import React from "react";
+import Amazon from "./Cartcomponents/amazon";
+import Navbar from "./Cartcomponents/Navbar";
+import { useState } from "react";
+// import Shopcart from "./Cartcomponents/shopcart";
+import Cart from "./Cartcomponents/Cart";
+import "./Cartform.css";
 
 const Cartform = () => {
-    const [show, setShow] = useState(true);
-    const [cart, setCart] = useState([]);
-    const handleClick = (item) => {
-        /*cart.push(item);
-        console.log(cart);*/
-        if (cart.indexOf(item) !== -1) return;
-        setCart([...cart, item])
-    };
-    const handlechange = (item, d) => {
-        const ind = cart.indexOf(item);
-        const arr = cart;
-        arr[ind].amount = +d;
+  const [show, setShow] = useState(true);
+  const [cart, setCart] = useState([]);
+  const [warning, setWarning] = useState(false);
 
-        if (arr[ind].amount === 0) {
-            arr[ind].amount = 1;
-        }
-        setCart([...arr]);
+  const handleClick = (item) => {
+    let ispresent = false;
+    cart.forEach((product) => {
+      if (item.id === product.id) ispresent = true;
+    });
+    if (ispresent) {
+      setWarning(true);
+      setTimeout(() => {
+        setWarning(false);
+      }, 2000);
+      return;
+    }
+    setCart([...cart, item]);
+  };
 
-    };
+  const handlechange = (item, d) => {
+    let ind = -1;
+    cart.forEach((data, index) => {
+      if (data.id === item.id) ind = index;
+    });
+    const tempArr = cart;
+    tempArr[ind].amount += d;
+    if (tempArr[ind].amount === 0) tempArr[ind].amount = 1;
+    setCart([...tempArr]);
+  };
 
-    return (
-        <div>
-            <Navbar setShow={setShow} size={cart.length}/>
-            {/*<Amazon/>*/}
-            {show ? (<Amazon handleClick={handleClick}/>) :
-                (<Cart cart={cart} setCart={setCart} handlechange={handlechange}/>)}
-            <Shopcart/>
-        </div>
-    );
+  return (
+    <div>
+      <Navbar setShow={setShow} size={cart.length} />
+      <h1 className="heading_content">
+        Meet the internet's favorite skincare.
+      </h1>
+      {show ? (
+        <Amazon handleClick={handleClick} />
+      ) : (
+        <Cart cart={cart} setCart={setCart} handlechange={handlechange} />
+      )}
+      {warning && (
+        <div className="Warning">Item is laready added to your cart</div>
+      )}
+    </div>
+  );
 };
 
 export default Cartform;

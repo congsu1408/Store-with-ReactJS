@@ -1,9 +1,64 @@
-import React from 'react';
+import React from "react";
+import {useState} from "react";
+import "./Loginup.css";
+
+const account1 = {
+    username: "congsu",
+    pin: 1111,
+};
+const account2 = {
+    username: "phuc",
+    pin: 2222,
+};
+
+const accounts = [account1, account2];
 
 const Loginform = () => {
-  return (
-    <div> Loginform </div>
-  );
+    const [username, setusername] = useState("");
+    const [pin, setpin] = useState("");
+    const [error, seterror] = useState("");
+
+    const handlesubmit = (event) => {
+        event.preventDefault();
+        const matchingaccount = accounts.find(
+            (account) => account.username === username && account.pin === Number(pin)
+        );
+        if (matchingaccount) {
+            seterror("You are successfully login the page");
+        } else {
+            seterror("Incorrect username or pin");
+        }
+    };
+
+    const valuehandler = (event) => {
+        // console.log(event);
+        setusername(event.target.value);
+        console.log(event.target.value);
+    };
+
+    return (
+        <div>
+            <form onSubmit={handlesubmit} className="sign-in-form" action="">
+                <label>
+                    Username
+                    <input type="text" value={username} onChange={valuehandler}/>
+                </label>
+                <label>
+                    Password
+                    <input
+                        type="text"
+                        value={pin}
+                        onChange={(event) => setpin(event.target.value)}
+                    />
+                </label>
+                <br/>
+                <button className="loginbtn" type="submit">
+                    Login
+                </button>
+                <div className="error">{error && <div>{error}</div>}</div>
+            </form>
+        </div>
+    );
 };
 
 export default Loginform;
